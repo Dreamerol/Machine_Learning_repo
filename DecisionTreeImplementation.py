@@ -43,7 +43,7 @@ class DeciosionTree:
 
       if best_split["info_gain"] > 0:
         left_node = self.build_tree(best_split["left_dataset"], curr_depth + 1)
-        right_node = self.build_tree(best_split["right_dataseet"], curr_depth + 1)
+        right_node = self.build_tree(best_split["right_dataset"], curr_depth + 1)
 
         return Node(best_split["feature_idx"], best_split["threshold"], best_split["info_gain"], left_node, right_node)
     
@@ -73,6 +73,7 @@ class DeciosionTree:
         #and analogically for the right part
         if len(left_dataset) and len(right_dataset):
           parent_y, left_y, right_y = dataset[:, -1], left_dataset[:, -1], right_dataset[:, -1]
+           #get all the rows in the last column
 
           info_gain = self.infromation_gain(parent_y, left_y, right_y)
 
@@ -83,7 +84,7 @@ class DeciosionTree:
             best_split['left_dataset'] = left_dataset
             best_split['right_dataset'] = right_dataset
 
-      return best_split
+    return best_split
   def split(self, dataset, feature_idx, threshold):
       left_dataset = np.array([row for row in dataset if row[feature_idx] <= threshold])     
       right_dataset = np.array([row for row in dataset if row[feature_idx] > threshold])
